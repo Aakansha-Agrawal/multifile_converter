@@ -1,0 +1,62 @@
+{% extends 'basic_files.html' %}
+{% if catg %}
+{% block title %}Convert {{catg["catg_name"]}}{% endblock %}
+{% endif %}
+
+{% block header %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/convert.css')}}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{% endblock %}
+
+{% block content %}
+{% if catg %}
+<div class="convert_container" style="background-color: {{catg['bg_color']}}">
+    {% include 'convert_navbar.html' %}
+    <div class="sub_container" style="border: {{catg['bg_border']}}">
+        <div class="main_head">
+            <div class="heading">
+                <!-- <img src="" alt="Logo"> -->
+                <h2>{{catg["catg_name"]}}</h2>
+            </div>
+
+            <div class="sub_row">
+                <!-- <p>Turn Your PDF to Audio File</p> -->
+                <div class="upload-btn-wrapper">
+                    <input type="file" onchange="upload('{{ request.url }}')" name="file_input" id="file_input" multiple>
+                    <label class="upload_btn" style="background-color:{{catg['btn_color']}}; border:{{catg['btn_border']}};" >
+                        <i class="fas fa-file-import"></i>Choose File
+                    </label>
+
+                    <!-- <button class="btn btn-secondary d-none" id="cancel_btn" type="button">Cancel</button> -->
+                </div>
+                <!-- d-none will hide the uploading button -->
+                <!-- <button class="btn btn-secondary d-none" id="loading_btn" type="button">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Uploading....
+                </button> -->
+                <div id="progress_wrapper" class="d-none">
+                    <div class="progressbar" style="background: linear-gradient(to right, red , yellow);">
+                        <div id="progress" class="progressbar_load" role="progressbar" aria-valuenow="25" area-valuemin="0" area-valuemax="100"></div>
+                    </div>
+                    <label id="progress_status"></label>
+                </div>                    
+                <!-- </div>  -->
+                <!-- end upload-btn-wrapper -->
+            </div>
+        </div>
+    </div>
+    <div class="extra_content">
+        <span style="color: {{catg['bg_color']}}">check</span>
+    </div>
+</div>
+{% endif %}
+
+<script src="{{ url_for ('static', filename=('js/upload_file.js')) }}"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% endblock %}

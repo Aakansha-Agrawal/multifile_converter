@@ -1,0 +1,166 @@
+<!-- <i class="fas fa-file-upload"></i> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Font Awesome Icons</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
+        <style>
+            .upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+        </style>
+</head>
+
+<body>
+
+    <!-- <i class="fa fa-car"></i>
+    <i class="fa fa-car" style="font-size:48px;"></i>
+    <i class="fa fa-car" style="font-size:60px;color:red;"></i>
+    <i class="fas fa-file-upload" style="font-size:60px;"></i>
+    <i class="fas fa-file-import" style="font-size:60px;"></i>
+    <i class="fa fa-calendar" aria-hidden="true"></i>
+    <i class="fa fa-file-audio-o" aria-hidden="true" style="font-size:60px;color:red;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></i>
+    <i class="fa fa-file-pdf-o" aria-hidden="true" style="font-size:60px;color:red; margin-left: 1px;"></i>
+    <i class="icon-upload"></i> 
+    <i class="icon-sort-down"></i>
+    <i class="fas fa-clock"></i>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
+
+    <div class="upload-btn-wrapper">
+      <input type="file" onchange="upload('{{ request.url }}')" name="file_input" id="file_input" multiple>
+      <label class="btn">
+          <i class="fas fa-file-import"></i>Choose File
+      </label>
+        <button class="btn btn-primary d-none" id="loading_btn" type="button">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Uploading....
+      </button>    
+      <!-- <button class="btn btn-secondary d-none" id="cancel_btn" type="button">Cancel</button> -->
+      <div id="progress_wrapper" class="d-none">
+          <label id="progress_status">50% Upload</label>
+          <div class="progress mb-3">
+              <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="25" area-valuemin="0" area-valuemax="100"></div>
+          </div>
+    </div>
+    <script>
+      var progress = document.getElementById("progress");
+      var progress_wrapper = document.getElementById("progress_wrapper");
+      var progress_status = document.getElementById("progress_status");
+
+      // var upload_btn = document.getElementById("upload_btn");
+      var loading_btn = document.getElementById("loading_btn");
+      // var cancel_btn = document.getElementById("cancel_btn");
+
+      // var alert_wrapper = document.getElementById("alert_wrapper");
+      var input = document.getElementById("file_input");
+      // var file_input_label = document.getElementById("file_input_label");
+
+      function input_filename(){
+          file_input_label.innerHTML = input.files[0].name;
+      }
+
+      function upload(url){
+          if(!input.value){
+              console.log("No Files Selected");
+              return;
+          }
+
+          var data = new FormData();
+          var request = new XMLHttpRequest();
+          request.responseType = "json";
+
+          // alert_wrapper.innerHTML = '';
+          input.disabled = true;
+          // upload_btn.classList.add("d-none");
+          loading_btn.classList.remove("d-none");
+          // cancel_btn.classList.remove("d-none");
+          progress_wrapper.classList.remove("d-none");
+
+          var file = input.files[0];
+          var filename = file.name;
+          var filesize = file.size;
+          document.cookie = `filesize=${filesize}`;
+          data.append("file",file);
+
+          request.upload.addEventListener("progress", function(e) {
+              var loaded = e.loaded;
+              var total = e.total;
+
+              var percentage_complete = (loaded/total) * 100;
+              progress.setAttribute("style", `width : ${Math.floor(percentage_complete)}%`);
+              progress_status.innerText = `${Math.floor(percentage_complete)}% uploaded`;
+          })
+
+          request.addEventListener("load", function(e) {
+              if(request.status == 200){
+                  console.log(`${request.response.message}`);
+              }
+              else{
+                  console.log("Error Uploading File",);
+              }
+
+              reset();
+          })
+
+          request.addEventListener("error", function(e) {
+              reset();
+              console.log("Error Uploading File");
+          })
+          
+          // request.addEventListener("abort", function(e) {
+          //     reset();
+          //     console.log("Cancelled");
+          // })
+
+          // request.open("post",url);
+          // request.send(data);
+
+          // cancel_btn.addEventListener("click", function() {
+          //     request.abort();
+          // })
+      }//end upload
+
+      function reset(){
+          input.value = null;
+          // cancel_btn.classList.add("d-none");
+          loading_btn.classList.add("d-none");
+          // upload_btn.classList.remove("d-none");
+          progress_wrapper.classList.add("d-none");
+          progress.setAttribute("style","width: 0%");
+          // file_input_label.innerText = "Select File";
+
+      }
+  </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   
+</body>
+
+</html>
+
+​

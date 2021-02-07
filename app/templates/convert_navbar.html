@@ -1,0 +1,60 @@
+
+{% block header %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{url_for('static',filename='css/convert_navbar.css')}}">
+{% endblock %}
+
+{% block nav %}
+<div class="navbar_nav">
+    <div class="page_logo">
+        <!-- <img src="" alt="Logo"> -->
+        <a href="">Logo</a>
+    </div>
+    <div class="dropdowns">
+        <i class="fab fa-battle-net"></i>
+        <a href="" class="dropbtns">Tools</a>
+        <!-- <i class="fa fa-caret-down"></i> -->
+        <div class="dropdown-contents">
+            <div class="contents">
+                <ul>
+                    <p>From PDF</p>
+                    <li><a href="#">To Audio</a></li>
+                    <li><a href="#">To Text</a></li>
+                    <li><a href="#">To Word</a></li>
+                    <li><a href="#">To Image</a></li>
+                </ul>
+                <ul>
+                    <p>To PDF</p>
+                    <li><a href="#">From Word</a></li>
+                    <li><a href="#">From Text</a></li>
+                    <li><a href="#">From Image</a></li>
+                </ul>
+                <ul>
+                    <p>Security</p>
+                    <li><a href="#">Protect PDF</a></li>
+                    <li><a href="#">Unlock PDF</a></li>
+                </ul>
+                <ul>
+                    <p>Manage PDF</p>
+                    <li><a href="#">Merge PDF</a></li>
+                    <li><a href="#">Cut PDF</a></li>
+                </ul>
+                <ul>
+                    <p>Extract From PDF</p>
+                    <li><a href="#">Extract Image</a></li>
+                    <li><a href="#">Extract Image & Text</a></li>
+                    <li><a href="#">Extract Table</a></li>
+                </ul>
+                <ul>
+                    <p>Other</p>
+                    <li><a href="#">Text To Speech</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="profile">
+        <!-- <i class="fa fa-user"></i> -->
+        <span><a href="/sign_up">Sign In</a></span>        
+    </div>
+</div>
+{% endblock %}

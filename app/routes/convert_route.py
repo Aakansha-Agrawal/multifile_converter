@@ -10,7 +10,7 @@ ALLOWED_EXTENSIONS = {'.doc','.docx','.txt','.pdf','.png','.jpg','.jpeg'}
 app.config['SECRET_KEY'] = 'super secret'
 app.config['DEBUG'] = True
 
-from app.converting_scripts import (imgtopdf,pdftoaudio,texttospeech, texttopdf, pdftotext)
+from app.helper import imgtopdf, pdftoaudio, texttospeech, texttopdf, pdftotext, pdftoimage, extractimages, extract_img_text, pdftodocx
 
 @app.route("/uploadfile/<filetype>", methods=["POST","GET"])
 def send_file(filetype):
@@ -44,7 +44,7 @@ def send_file(filetype):
                     print("File Uploaded")
                     
                     # ---------------------- calling function to convert ---------------------- #
-                    f = os.path.abspath(file.filename)
+                    f = os.path.abspath(os.path.join(upload_path, file.filename))
                     # print(f)
 
                     if filetype == 'image_to_pdf':
@@ -52,11 +52,21 @@ def send_file(filetype):
                     elif filetype == 'pdf_to_audio':
                         pdftoaudio(f, convert_path)
                     elif filetype == 'text_to_audio':
-                        texttospeech(file.filename, convert_path)
+                        texttospeech(f, convert_path)
                     elif filetype == 'text_to_pdf':
                         texttopdf(f, convert_path)
                     elif filetype == 'pdf_to_text':
                         pdftotext(f, convert_path)
+                    elif filetype == 'pdf_to_image':
+                        pdftoimage(f, convert_path)
+                    elif filetype == 'extract_images':
+                        extractimages(f, convert_path)
+                    elif filetype == 'extract_images_text':
+                        extract_img_text(f, convert_path)
+                    elif filetype == 'pdf_to_word':
+                        pdftodocx(f, convert_path)
+                    # elif filetype == 'protect_pdf':
+                    #     protect(f, convert_path)
                     else:
                         print("not valid")
 

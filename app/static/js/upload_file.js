@@ -4,6 +4,10 @@ var progress = document.getElementById("progress");
 var progress_wrapper = document.getElementById("progress_wrapper");
 var progress_status = document.getElementById("progress_status");
 
+var fpass = document.getElementById("fpass");
+var from = document.getElementById("from");
+var to = document.getElementById("to");
+
 // var loading_btn = document.getElementById("loading_btn");
 // var cancel_btn = document.getElementById("cancel_btn");
 
@@ -19,6 +23,9 @@ function upload(url) {
         console.log("No files Selected");
         return;
     }
+    // if(fpass){
+    //     console.log("form1",fpass)
+    // }
 
     var data = new FormData();
     var request = new XMLHttpRequest();
@@ -42,10 +49,16 @@ function upload(url) {
     var file = file_input.files[0];
     var filename = file.name;
     var filesize = file.size;
+    var filepass = fpass.value;
+    var from  = from.value;
+    var to = to.value;
 
     document.cookie = `filesize=${filesize}`;
+    document.cookie = `filepass=${filepass}`;
+    document.cookie = `from=${from}`;
+    document.cookie = `to=${to}`;
     data.append("file", file);
-    // console.log(file, filename, filesize);
+    console.log(filesize, filepass);
 
     request.upload.addEventListener("progress", function (e) {
         var loaded = e.loaded;

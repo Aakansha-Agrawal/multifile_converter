@@ -23,7 +23,17 @@
 
             <div class="sub_row">
                 <!-- <p>Turn Your PDF to Audio File</p> -->
-                <form action="" method="POST"></form>
+                <form action="" method="POST">
+                    <div class="content">
+                        <h6>{{catg["form_text"]}}</h6>
+                        <!-- <input type="password" name="fpass" id="fpass" placeholder="Enter Your Password"> -->
+                        <label>From Page :
+                            <input type="tel" name="from" id="from" placeholder="0" width="10">
+                        </label>
+                        <label>To Page :
+                            <input type="tel" name="to" id="to" placeholder="0">
+                        </label>
+                    </div>
                     <div class="upload-btn-wrapper">
                         <input type="file" onchange="upload('{{ request.url }}')" name="file_input" id="file_input" multiple>
                         <label class="upload_btn" style="background-color:{{catg['btn_color']}}; border:{{catg['btn_border']}};" >

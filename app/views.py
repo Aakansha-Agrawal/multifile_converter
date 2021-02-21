@@ -8,9 +8,9 @@ def index():
 
 @app.route("/icon")
 def icon():
-    return render_template("test_nav.html")
+    # return render_template("test_nav.html")
     # return render_template("loading.html")
-    # return render_template("icon_check.html")
+    return render_template("icon_check.html")
 
 #Sign Up and Sign In part 
 @app.route("/sign_up")

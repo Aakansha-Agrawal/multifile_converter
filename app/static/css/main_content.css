@@ -42,8 +42,16 @@
  @media screen and (min-width:800px){
     .category{
         width:20vw;
-        font-size: 22px;
+        /* font-size: 22px; */
         font-family: 'sans-serif' ;
+    }
+}
+
+@media screen and (min-width:950px){
+    .category{
+        /* width:20vw; */
+        font-size: 22px;
+        /* font-family: 'sans-serif' ; */
     }
 }
 

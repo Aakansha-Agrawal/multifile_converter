@@ -7,4 +7,7 @@ from .pdf_to_img import pdftoimage
 from .extract_img import extractimages
 from .extract_to_imgtxt import extract_img_text
 from .pdf_to_docx import pdftodocx
-# from .pass_pdf import protect
+from .protect_pdf import protect
+from .unlock_pdf import unlock_pdf
+from .merge_pdf import mergepdf
+from .split_pdfs import splitpdf

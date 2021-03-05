@@ -3,30 +3,19 @@ from PyPDF2 import PdfFileReader, PdfFileWriter
 from .savefile import savefile_format
 
 def splitpdf(path, save_file, frompage, topage):
-    # m = int(input("from : "))
-    # n = int(input("to : "))
-    m = frompage
-    n = topage
+    print(path)
+    m = int(frompage)
+    n = int(topage)
 
-    # root = Tk()
-    # root.withdraw()
-
-    # pdffile = askopenfilename()
-    # pdffile = path
-    # file_base = pdffile.replace('.pdf','')
-
-    # pathdir = askdirectory()
-    # files = pathdir.replace('/', '\\')
-    # print(os.path.dirname(pathdir),os.path.dirname(files))
+    print(m,n)
 
     pdf = PdfFileReader(path)
     print(pdf.numPages)
 
-
     for page_num in range(pdf.numPages):
-        # print(page_num)
+        
+        # if ( (m!= None) and (n!= None)):
         while(m <= n):
-            print(m,n)
             pdfwrite = PdfFileWriter()
             pdfwrite.addPage(pdf.getPage(m))
             
@@ -36,3 +25,5 @@ def splitpdf(path, save_file, frompage, topage):
                 f.close()
 
             m = m+1
+    
+    print("Conversion Completed")

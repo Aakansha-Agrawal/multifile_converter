@@ -11,3 +11,5 @@ from .protect_pdf import protect
 from .unlock_pdf import unlock_pdf
 from .merge_pdf import mergepdf
 from .split_pdfs import splitpdf
+
+# from .doc_to_pdf import doctopdf

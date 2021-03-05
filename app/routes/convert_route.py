@@ -10,7 +10,7 @@ ALLOWED_EXTENSIONS = {'.doc','.docx','.txt','.pdf','.png','.jpg','.jpeg'}
 app.config['SECRET_KEY'] = 'super secret'
 app.config['DEBUG'] = True
 
-from app.helper import imgtopdf, pdftoaudio, texttospeech, texttopdf, pdftotext, pdftoimage, extractimages, extract_img_text, pdftodocx, protect, unlock_pdf, splitpdf 
+from app.helper import imgtopdf, pdftoaudio, texttospeech, texttopdf, pdftotext, pdftoimage, extractimages, extract_img_text, pdftodocx, protect, unlock_pdf, splitpdf, mergepdf 
 
 @app.route("/uploadfile/<filetype>", methods=["POST","GET"])
 def send_file(filetype):
@@ -25,74 +25,77 @@ def send_file(filetype):
 
             filesize = request.cookies.get("filesize")
             # file = request.files["file"]
-            filepass = request.cookies.get("filepass")
-            frompage = request.cookies.get("from")
-            topage = request.cookies.get("to")
-            print(filepass, filesize)
+            # filepass = request.cookies.get("filepass")
+
+            frompage = request.cookies.get("frompage")
+            topage = request.cookies.get("topage")
+            print(frompage, topage)
+
+            res = make_response(jsonify({"message" : "file uploaded"}), 200)
 
             files = request.files.getlist('file')
-            print(files)
+            # print(file,files)
                
             #--------------------------- saving file to folder ------------------------------ # 
-            for file in files:
-                file_ext = pathlib.Path(file.filename).suffix
+            # for file in files:
 
-                if file_ext in ALLOWED_EXTENSIONS :
+            if files :
 
-                    if file:
-                        filename = secure_filename(file.filename)
-                        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  
+                upload_path = os.path.join(app.config['UPLOAD_FOLDER'],session['count'])
+                convert_path = os.path.join(app.config['CONVERT_FOLDER'],session['count'])
 
-                        res = make_response(jsonify({"message" : f"{file.filename} uploaded"}), 200)
+                os.makedirs(upload_path)
+                os.makedirs(convert_path)
 
-                        upload_path = os.path.join(app.config['UPLOAD_FOLDER'],session['count'])
-
-                        convert_path = os.path.join(app.config['CONVERT_FOLDER'],session['count'])
-                        os.makedirs(upload_path)
-                        os.makedirs(convert_path)
-
-                        if os.path.isdir(upload_path) and os.path.isdir(convert_path):
-                            file.save(os.path.join(upload_path, file.filename))
-                            print("File Uploaded")
-                            
-                            # ---------------------- calling function to convert ---------------------- #
-                            f = os.path.abspath(os.path.join(upload_path, file.filename))
-                            # print(f)
-
-                            if filetype == 'image_to_pdf':
-                                imgtopdf(f, convert_path)
-                            elif filetype == 'pdf_to_audio':
-                                pdftoaudio(f, convert_path)
-                            elif filetype == 'text_to_audio':
-                                texttospeech(f, convert_path)
-                            elif filetype == 'text_to_pdf':
-                                texttopdf(f, convert_path)
-                            elif filetype == 'pdf_to_text':
-                                pdftotext(f, convert_path)
-                            elif filetype == 'pdf_to_image':
-                                pdftoimage(f, convert_path)
-                            elif filetype == 'extract_images':
-                                extractimages(f, convert_path)
-                            elif filetype == 'extract_images_text':
-                                extract_img_text(f, convert_path)
-                            elif filetype == 'pdf_to_word':
-                                pdftodocx(f, convert_path)
-                            elif filetype == 'protect_pdf':
-                                protect(f, convert_path, filepass)
-                            elif filetype == 'unlock_pdf':
-                                unlock_pdf(f, convert_path, filepass)
-                            # elif filetype == 'merge_pdf':
-                            #     mergepdf(f, convert_path, upload_path)    
-                            elif filetype == 'split_pdf':
-                                splitpdf(f, convert_path, frompage, topage)
-                            else:
-                                print("not valid")
-
-                        else:
-                            print('not found')
+                if os.path.isdir(upload_path) and os.path.isdir(convert_path):
                     
+                    for file in files:
+                        file_ext = pathlib.Path(file.filename).suffix
+
+                        if file_ext in ALLOWED_EXTENSIONS:
+
+                            filename = secure_filename(file.filename)
+                            file.save(os.path.join(upload_path, filename))
+                            print("File Uploaded")
+                        
+                        # ---------------------- calling function to convert ---------------------- #
+                    f = os.path.abspath(os.path.join(upload_path, file.filename))
+                    filepath = os.path.abspath(upload_path)
+
+                    if filetype == 'image_to_pdf':
+                        imgtopdf(f, convert_path)
+                    elif filetype == 'pdf_to_audio':
+                        pdftoaudio(f, convert_path)
+                    elif filetype == 'text_to_audio':
+                        texttospeech(f, convert_path)
+                    elif filetype == 'text_to_pdf':
+                        texttopdf(f, convert_path)
+                    elif filetype == 'pdf_to_text':
+                        pdftotext(f, convert_path)
+                    elif filetype == 'pdf_to_image':
+                        pdftoimage(f, convert_path)
+                    elif filetype == 'extract_images':
+                        extractimages(f, convert_path)
+                    elif filetype == 'extract_images_text':
+                        extract_img_text(f, convert_path)
+                    elif filetype == 'pdf_to_word':
+                        pdftodocx(f, convert_path)
+                    elif filetype == 'protect_pdf':
+                        protect(f, convert_path, filepass)
+                    elif filetype == 'unlock_pdf':
+                        unlock_pdf(f, convert_path, filepass)
+                    elif filetype == 'merge_pdf':
+                        mergepdf(convert_path, filepath)    
+                    elif filetype == 'split_pdf':
+                        splitpdf(f, convert_path, frompage, topage)
                     else:
-                        print("extension not allowed")
+                        print("not valid")
+
+                else:
+                    print('not found')
+            
+            else:
+                print("extension not allowed")
             
             return res
             # , send_from_directory(directory=convert_path, filename=filetype, as_attachment=True)

@@ -25,13 +25,14 @@
                 <!-- <p>Turn Your PDF to Audio File</p> -->
                 <form action="" method="POST">
                     <div class="content">
-                        <h6>{{catg["form_text"]}}</h6>
-                        <!-- <input type="password" name="fpass" id="fpass" placeholder="Enter Your Password"> -->
-                        <label>From Page :
-                            <input type="tel" name="from" id="from" placeholder="0" width="10">
+                        <h5>{{catg["form_text"]}}</h5>                        
+                            
+                        <input type="{{catg['type']}}" name="fpass" id="fpass" placeholder="Enter Your Password">                        
+                        <label style="display: {{catg['type1']}};">From Page :
+                            <input type="tel" name="from" id="from" placeholder="1" width="10">
                         </label>
-                        <label>To Page :
-                            <input type="tel" name="to" id="to" placeholder="0">
+                        <label style="display: {{catg['type1']}};">To Page :
+                            <input type="tel" name="to" id="to" placeholder="1">
                         </label>
                     </div>
                     <div class="upload-btn-wrapper">

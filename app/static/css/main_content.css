@@ -28,7 +28,6 @@
     /* margin: 0.7rem 0.7rem; */
 }
 
-
 @media screen and (min-width:250px){
      .sub_category{
         margin: 0.8rem 0.4rem;
@@ -42,7 +41,7 @@
  @media screen and (min-width:800px){
     .category{
         width:20vw;
-        /* font-size: 22px; */
+        /* font-size: 25px; */
         font-family: 'sans-serif' ;
     }
 }

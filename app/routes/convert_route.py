@@ -10,7 +10,7 @@ ALLOWED_EXTENSIONS = {'.doc','.docx','.txt','.pdf','.png','.jpg','.jpeg'}
 app.config['SECRET_KEY'] = 'super secret'
 app.config['DEBUG'] = True
 
-from app.helper import imgtopdf, pdftoaudio, texttospeech, texttopdf, pdftotext, pdftoimage, extractimages, extract_img_text, pdftodocx, protect, unlock_pdf, splitpdf, mergepdf 
+from app.helper import imgtopdf, pdftoaudio, texttospeech, texttopdf, pdftotext, pdftoimage, extractimages, extract_img_text, pdftodocx, protect, unlock_pdf, splitpdf, mergepdf, doctopdf
 
 @app.route("/uploadfile/<filetype>", methods=["POST","GET"])
 def send_file(filetype):
@@ -88,6 +88,8 @@ def send_file(filetype):
                         mergepdf(convert_path, filepath)    
                     elif filetype == 'split_pdf':
                         splitpdf(f, convert_path, frompage, topage)
+                    elif filetype == 'word_to_pdf':
+                        doctopdf(f, convert_path)
                     else:
                         print("not valid")
 
